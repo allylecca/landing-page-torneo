@@ -38,7 +38,9 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Inscribirse Ahora
+              <span className="cta-text">Inscribirse Ahora</span>
+              <span className="material-symbols-outlined">file_open
+              </span>
             </a>
           </div>
           <div className="detail-content">
@@ -214,24 +216,24 @@ function App() {
           <div className="hero-header">
             <p className="promotion-text">Promoción XXVI - Ingeniería de Sistemas</p>
           </div>
-          
+
           <div className="hero-main">
             <h1 className="hero-title">
               <span>BASES DEL</span>
               <span>TORNEO DE</span>
               <span>VIDEOJUEGOS</span>
             </h1>
-            
+
             <p className="hero-subtitle">
               Compite, gana y representa a tu promoción.
             </p>
-            
+
             <button className="hero-button">
               Ver Juegos y Bases
             </button>
           </div>
         </div>
-        
+
         <div className="star star-1"></div>
         <div className="star star-2"></div>
         <div className="star star-3"></div>
@@ -292,7 +294,7 @@ function App() {
         <div className="star star-58"></div>
         <div className="star star-59"></div>
         <div className="star star-60"></div>
-        
+
         <div className="gamer-elements">
           <div className="pixel-particle pixel-1"></div>
           <div className="pixel-particle pixel-2"></div>
@@ -312,7 +314,7 @@ function App() {
           <div className="pixel-particle pixel-16"></div>
           <div className="pixel-particle pixel-17"></div>
           <div className="pixel-particle pixel-18"></div>
-          
+
           <div className="circuit-line line-1"></div>
           <div className="circuit-line line-2"></div>
           <div className="circuit-line line-3"></div>
@@ -353,7 +355,7 @@ function App() {
           <div className="game-particle game-particle-24"></div>
           <div className="game-particle game-particle-25"></div>
         </div>
-        
+
         <div className="circuit-background">
           <div className="circuit-line-bg circuit-1"></div>
           <div className="circuit-line-bg circuit-2"></div>
