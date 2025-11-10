@@ -2355,6 +2355,7 @@ body {
 
 .bullet-list li {
   margin-bottom: 8px;
+  text-align: justify;
 }
 
 .span-6 {

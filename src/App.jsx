@@ -1,21 +1,11 @@
 import './App.css'
 import { useState } from 'react'
-import valorantImg from './assets/images/valorant.jpg'
-import brawlStarsImg from './assets/images/brawl-stars.jpg'
-import left4DeadImg from './assets/images/left-4-dead-2.jpg'
-import clashRoyaleImg from './assets/images/clash-royale.jpg'
-import fifaImg from './assets/images/fifa.jpg'
-import fallGuysImg from './assets/images/fall-guys.jpg'
-import freeFireImg from './assets/images/free-fire.jpg'
-import amongUsImg from './assets/images/among-us.jpg'
-import dota2Img from './assets/images/dota-2.jpg'
-import dragonBallImg from './assets/images/dragon-ball-sparking-zero.jpg'
+import { gamesData } from "./assets/data";
 
 function App() {
   const [selectedGame, setSelectedGame] = useState(null)
   const openDetails = (game) => setSelectedGame(game)
   const closeDetails = () => setSelectedGame(null)
-
   return (
     <div className="app-container">
       {selectedGame && (
@@ -81,12 +71,13 @@ function App() {
                   </span>
                   <h3>Premios</h3>
                 </div>
-                <p>
-                  El primer puesto obtendrá un premio monetario de acuerdo a lo recaudado en las inscripciones y los respectivos 30 puntos para su promoción.
-                </p>
-                <p>
-                  Para el segundo puesto sólo se acreditará los 15 puntos a su respectiva promoción.
-                </p>
+                <ul className="bullet-list">
+                  {
+                    selectedGame?.premios?.map((premio, index) => (
+                      <li key={index}>{premio}</li>
+                    ))
+                  }
+                </ul>
               </div>
 
               <div className="bento-card span-6">
@@ -101,13 +92,11 @@ function App() {
                   <h3>Equipos participantes</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li>Participarán todos los jugadores que se hayan inscrito previamente, cumpliendo todos los requisitos de inscripción.</li>
-                  <li>El torneo está destinado a estudiantes y egresados de la Escuela de Ingeniería de Sistemas.</li>
-                  <li>La inscripción comienza el 27 de enero y finaliza el 29 de enero a las 23:59 hrs.</li>
-                  <li>Todos los inscritos serán agregados al grupo de WhatsApp del torneo de Valorant.</li>
-                  <li>Si un jugador desea retirarse anticipadamente, debe notificar al organizador vía WhatsApp. No habrá devoluciones.</li>
-                  <li>Todo jugador debe contar con dispositivo de juego propio y el juego actualizado, listo para competir en el modo correspondiente.</li>
-                  <li>El torneo comienza el 31 de enero y puede extenderse a lo largo de la semana según equipos inscritos.</li>
+                  {
+                    selectedGame?.equipoParticipante?.map((participante, index) => (
+                      <li key={index}>{participante}</li>
+                    ))
+                  }
                 </ul>
               </div>
 
@@ -124,10 +113,19 @@ function App() {
                   <h3>Juego y modalidad</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li><strong>Plataforma:</strong> PC</li>
-                  <li><strong>Modo de juego:</strong> Captura la spike</li>
-                  <li><strong>Mapa:</strong> Elección del capitán del equipo ganador en un mejor de 3 (1vs1)</li>
-                  <li><strong>Formato:</strong> Torneo por equipos (5 jugadores) y 2 suplentes si fuera necesario.</li>
+                  <ul className="bullet-list">
+                    {
+                      selectedGame?.juegoModalidad?.map((item, index) => {
+                        // Dividimos el texto antes y después de los dos puntos
+                        const [label, value] = item.split(':');
+                        return (
+                          <li key={index}>
+                            <strong>{label.trim()}:</strong> {value?.trim()}
+                          </li>
+                        );
+                      })
+                    }
+                  </ul>
                 </ul>
               </div>
 
@@ -142,10 +140,11 @@ function App() {
                   <h3>Inscripción</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li>Cada equipo debe tener un nombre representativo.</li>
-                  <li>Los participantes deben inscribirse de manera grupal (usernames).</li>
-                  <li>Pago de 25 soles al Yape del responsable del torneo de Valorant. Otro tipo de pago coordinar con el responsable.</li>
-                  <li>Tras el depósito, rellenar el formulario de Google adjuntando el comprobante:</li>
+                  {
+                    selectedGame?.inscripcion?.map((inscripcion, index) => (
+                      <li key={index}>{inscripcion}</li>
+                    ))
+                  }
                 </ul>
               </div>
 
@@ -161,12 +160,11 @@ function App() {
                   <h3>Reglas</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li>El nombre del equipo no puede contener palabras obscenas u ofensivas.</li>
-                  <li>Se pueden traer refuerzos de otras carreras si conforman menos del 50% del equipo.</li>
-                  <li>Todos los jugadores deben tener el nombre del servidor actualizado conforme su Riot ID.</li>
-                  <li>Cada equipo está constituido por un máximo de 7 jugadores, incluyendo capitán y 2 suplentes.</li>
-                  <li>Están prohibidos los cambios de nombre una vez iniciadas las fases del torneo; cambios no notificados pueden causar descalificación.</li>
-                  <li>Cada equipo debe mantener 5 jugadores durante el torneo; de lo contrario será eliminado.</li>
+                  {
+                    selectedGame?.reglas?.map((regla, index) => (
+                      <li key={index}>{regla}</li>
+                    ))
+                  }
                 </ul>
               </div>
 
@@ -183,10 +181,11 @@ function App() {
                   <h3>Formato de los encuentros</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li>El responsable crea la sala y añade a los capitanes; ellos agregan al resto de participantes.</li>
-                  <li>El staff corrobora la información de los jugadores antes de iniciar la partida.</li>
-                  <li>Se harán 3 rondas de eliminación en 1vs1 para que el equipo ganador elija el mapa; el participante del 1vs1 lo elige el equipo y lo comunica al administrador (sujeto a cambios).</li>
-                  <li>Todos los juegos serán al mejor de 1; la final será al mejor de 3 (puede modificarse si se inscriben más equipos).</li>
+                  {
+                    selectedGame?.formatoEncuentros?.map((encuentros, index) => (
+                      <li key={index}>{encuentros}</li>
+                    ))
+                  }
                 </ul>
               </div>
 
@@ -200,11 +199,11 @@ function App() {
                   <h3>Reglas de juego</h3>
                 </div>
                 <ul className="bullet-list">
-                  <li>Personajes: Cualquiera</li>
-                  <li>Armas: Cualquiera</li>
-                  <li>Permitir trucos: No</li>
-                  <li>Tiempo extra ganar por 2: No</li>
-                  <li>Jugar todas las rondas: No</li>
+                  {
+                    selectedGame?.reglasJuego?.map((regla, index) => (
+                      <li key={index}>{regla}</li>
+                    ))
+                  }
                 </ul>
               </div>
             </div>
@@ -373,456 +372,118 @@ function App() {
 
         {/* Degradado de transición */}
         <div className="gradient-transition"></div>
-
-        <div className="game-section left">
-          <div className="game-content">
-            <div className="game-info">
-              <h2>Valorant</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Alexandra Leca</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">987654321</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Valorant',
-                      image: valorantImg,
-                      responsible: 'Alexandra Leca',
-                      phone: '987654321',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1fdWL3Zq6Pf8NNt_fXZz9w5SaKRPcPPNhD4OfPb2PRaw/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-            <div className="game-image">
-              <img src={valorantImg} alt="Valorant" className="game-img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section right">
-          <div className="game-content">
-            <div className="game-image">
-              <img src={brawlStarsImg} alt="Brawl Stars" className="game-img" />
-            </div>
-            <div className="game-info">
-              <h2>Brawl Stars</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Carlos Mendoza</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">912345678</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Brawl Stars',
-                      image: brawlStarsImg,
-                      responsible: 'Carlos Mendoza',
-                      phone: '912345678',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1fdWL3Zq6Pf8NNt_fXZz9w5SaKRPcPPNhD4OfPb2PRaw/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section left">
-          <div className="game-content">
-            <div className="game-info">
-              <h2>Left 4 Dead</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">María González</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">923456789</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Left 4 Dead',
-                      image: left4DeadImg,
-                      responsible: 'María González',
-                      phone: '923456789',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1fdWL3Zq6Pf8NNt_fXZz9w5SaKRPcPPNhD4OfPb2PRaw/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
+        {
+          gamesData.map((game, index) => (
+            <div
+              key={game.id}
+              className={`game-section ${index % 2 === 0 ? "left" : "right"}`}
+            >
+              <div className="game-content">
+                {index % 2 === 0 ? (
+                  <>
+                    <div className="game-info">
+                      <h2>{game.nombre}</h2>
+                      <div className="game-details">
+                        <div className="responsible">
+                          <span className="label">Responsable:</span>
+                          <span className="name">{game.responsable}</span>
+                        </div>
+                        <div className="contact">
+                          <span className="label">Contacto:</span>
+                          <span className="phone">{game.contacto}</span>
+                        </div>
+                      </div>
+                      <div className="game-buttons">
+                        <button
+                          className="btn-primary"
+                          onClick={() =>
+                            openDetails({
+                              title: game.nombre,
+                              image: game.imagen,
+                              responsible: game.responsable,
+                              phone: game.contacto,
+                              inscriptionUrl: game.inscripcionUrl,
+                              premios: game.premios,
+                              equipoParticipante: game.equiposParticipantes,
+                              juegoModalidad: game.juegoModalidad,
+                              inscripcion: game.inscripcion,
+                              reglas: game.reglas,
+                              formatoEncuentros: game.formatoEncuentros,
+                              reglasJuego: game.reglasJuego
+                            })
+                          }
+                        >
+                          Ver bases del videojuego
+                        </button>
+                        <a
+                          href={game.inscripcionUrl}
+                          className="btn-secondary"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Inscribirse
+                        </a>
+                      </div>
+                    </div>
+                    <div className="game-image">
+                      <img src={game.imagen} alt={game.nombre} className="game-img" />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="game-image">
+                      <img src={game.imagen} alt={game.nombre} className="game-img" />
+                    </div>
+                    <div className="game-info">
+                      <h2>{game.nombre}</h2>
+                      <div className="game-details">
+                        <div className="responsible">
+                          <span className="label">Responsable:</span>
+                          <span className="name">{game.responsable}</span>
+                        </div>
+                        <div className="contact">
+                          <span className="label">Contacto:</span>
+                          <span className="phone">{game.contacto}</span>
+                        </div>
+                      </div>
+                      <div className="game-buttons">
+                        <button
+                          className="btn-primary"
+                          onClick={() =>
+                            openDetails({
+                              title: game.nombre,
+                              image: game.imagen,
+                              responsible: game.responsable,
+                              phone: game.contacto,
+                              inscriptionUrl: game.inscripcionUrl,
+                              premios: game.premios,
+                              equipoParticipante: game.equiposParticipantes,
+                              juegoModalidad: game.juegoModalidad,
+                              inscripcion: game.inscripcion,
+                              reglas: game.reglas,
+                              formatoEncuentros: game.formatoEncuentros,
+                              reglasJuego: game.reglasJuego
+                            })
+                          }
+                        >
+                          Ver bases del videojuego
+                        </button>
+                        <a
+                          href={game.inscripcionUrl}
+                          className="btn-secondary"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Inscribirse
+                        </a>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-            <div className="game-image">
-              <img src={left4DeadImg} alt="Left 4 Dead 2" className="game-img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section right">
-          <div className="game-content">
-            <div className="game-image">
-              <img src={dragonBallImg} alt="Dragon Ball Sparking Zero" className="game-img" />
-            </div>
-            <div className="game-info">
-              <h2>Dragon Ball Sparking Zero</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Luis Rodríguez</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">934567890</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Dragon Ball Sparking Zero',
-                      image: dragonBallImg,
-                      responsible: 'Luis Rodríguez',
-                      phone: '934567890',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1fdWL3Zq6Pf8NNt_fXZz9w5SaKRPcPPNhD4OfPb2PRaw/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section left">
-          <div className="game-content">
-            <div className="game-info">
-              <h2>FIFA</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Ana Martínez</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">945678901</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'FIFA',
-                      image: fifaImg,
-                      responsible: 'Ana Martínez',
-                      phone: '945678901',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/10H76ZbSRqM0_9LEdTmcvAjW8FjIEULHNEDiDIl1zJcs/edit?usp=drive_link"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-            <div className="game-image">
-              <img src={fifaImg} alt="FIFA" className="game-img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section right">
-          <div className="game-content">
-            <div className="game-image">
-              <img src={fallGuysImg} alt="Fall Guys" className="game-img" />
-            </div>
-            <div className="game-info">
-              <h2>Fall Guys</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Pedro Sánchez</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">956789012</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Fall Guys',
-                      image: fallGuysImg,
-                      responsible: 'Pedro Sánchez',
-                      phone: '956789012',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1eKjFyE24a088nKbGWxnNIvc5U_TFyVQ0miCBCw4gW1s/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section left">
-          <div className="game-content">
-            <div className="game-info">
-              <h2>Among Us</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Laura Jiménez</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">967890123</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Among Us',
-                      image: amongUsImg,
-                      responsible: 'Laura Jiménez',
-                      phone: '967890123',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/15XEXrK0rJlhTxTkYOnswwshDKhZ7ZVlQjQs73k9ympY/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-            <div className="game-image">
-              <img src={amongUsImg} alt="Among Us" className="game-img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section right">
-          <div className="game-content">
-            <div className="game-image">
-              <img src={freeFireImg} alt="Free Fire" className="game-img" />
-            </div>
-            <div className="game-info">
-              <h2>Free Fire</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Diego López</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">978901234</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Free Fire',
-                      image: freeFireImg,
-                      responsible: 'Diego López',
-                      phone: '978901234',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1SneQJx1N9QMl4zla4S3B8E_90TmLTcrYbiejl_Pw9U8/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section left">
-          <div className="game-content">
-            <div className="game-info">
-              <h2>Clash Royale</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Carmen López</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">989012345</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Clash Royale',
-                      image: clashRoyaleImg,
-                      responsible: 'Carmen López',
-                      phone: '989012345',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1E0Xhr3zcXojp1Y37dwAX03UKVaSqFpmPaVr3iyU3ajw/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-            <div className="game-image">
-              <img src={clashRoyaleImg} alt="Clash Royale" className="game-img" />
-            </div>
-          </div>
-        </div>
-
-        <div className="game-section right">
-          <div className="game-content">
-            <div className="game-image">
-              <img src={dota2Img} alt="Dota 2" className="game-img" />
-            </div>
-            <div className="game-info">
-              <h2>Dota 2</h2>
-              <div className="game-details">
-                <div className="responsible">
-                  <span className="label">Responsable:</span>
-                  <span className="name">Roberto Fernández</span>
-                </div>
-                <div className="contact">
-                  <span className="label">Contacto:</span>
-                  <span className="phone">990123456</span>
-                </div>
-              </div>
-              <div className="game-buttons">
-                <button
-                  className="btn-primary"
-                  onClick={() =>
-                    openDetails({
-                      title: 'Dota 2',
-                      image: dota2Img,
-                      responsible: 'Roberto Fernández',
-                      phone: '990123456',
-                      inscriptionUrl: 'https://forms.gle/segDWJ3fBHnXmcTV9',
-                    })
-                  }
-                >
-                  Ver bases del videojuego
-                </button>
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1jYyXFrETAcKZN3wWFS6reG1kLpDn-nlGkIMLSH3UaBA/edit?usp=sharing"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Inscribirse
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+          ))
+        }
       </div>
     </div>
   );
